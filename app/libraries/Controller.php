@@ -1,23 +1,25 @@
 <?php
-//qui permet d'obtenir une instace 
-class Controller{
+/**
+ * Base Controller
+ * Loads the models and views
+ * 
+ */
 
-    // fonction qui permet de require classe et creer une instance  qui prend en parame le nom du model class 
-    public function model($model){
-        require_once  APP_ROOT ."models/{$model}.php";
-        
-        return new $model ;
+class Controller 
+{
+
+    public function model($model)
+    {
+        require_once "../app/models/{$model}.php";
+        return new $model();
     }
 
-
-    public function view($view , $data = []){
-        if(file_exists(APP_ROOT . "views/{$view}.php")){
-            require_once APP_ROOT ."views/{$view}.php";
-        }else{
-            die("{$view} does  not exists");
+    public function view($view, $data = [])
+    {
+        if (file_exists("../app/views/{$view}.php")) {
+            require_once "../app/views/{$view}.php";
+        } else {
+            die("View $view does not exist!");
         }
     }
-   
-
-
 }

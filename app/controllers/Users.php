@@ -40,6 +40,7 @@ class Users extends Controller{
         $image = $profil ;
 
         $this->model->insert($fname,$lname,$image,$email,$pass);
-        echo "Upload Successful";       
+        echo "Upload Successful";
+               
     }
 }

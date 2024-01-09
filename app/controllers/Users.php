@@ -36,6 +36,7 @@ class Users extends Controller{
         $fname =$_POST['fname'];
         $lname =$_POST['lname'];
         $email =$_POST['email'];
+        var_dump($_POST);
         $pass = password_hash($_POST['password'] , PASSWORD_BCRYPT);
         $image = $profil ;
 
@@ -43,4 +44,41 @@ class Users extends Controller{
         echo "Upload Successful";
                
     }
+
+    public function login()
+    {
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+             $email = $_POST['email'];
+             $password = $_POST['password'];
+
+        $row = $this->model->fetch($email);
+
+        if ($row && password_verify($password, $row->password)){
+
+            $_SESSION['id'] = $row->id;
+            $_SESSION['fname'] = $row->fname;
+
+            switch ($row->role){
+                case '1':
+                    $_SESSION['role'] = 'admin';
+                break;
+                case '0':
+                    $_SESSION['role'] = 'auteur';
+                break ;
+            }
+        }
+
+        }
+       
+        $this->view("signin");
+    }
+
+    public function logout() 
+    {
+        session_unset();
+        // session_destroy();
+    }
+    
+
+
 }

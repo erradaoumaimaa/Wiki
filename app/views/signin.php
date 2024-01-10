@@ -11,26 +11,21 @@ var_dump($_SESSION);?>
                 <div class="w-full px-8">
                     <!-- Form -->
                     <form action="<?= URLROOT . '/users/login' ?>" method="post" class="mt-4" enctype="multipart/form-data">
-                       
+                    <!-- Email --> 
                         <div class="mb-3">
                             <label class="mb-2 block text-xs font-semibold">Email</label>
                             <input type="email" name="email" placeholder="Enter your email"
                                 class="block w-full rounded-md border border-gray-300 focus:border-[242722] focus:outline-none focus:ring-1 focus:ring-[242722] py-1 px-1.5 text-gray-500" />
                         </div>
 
-                        <div class="lg:flex lg:justify-between">
+                         <!-- Password --> 
                             <div class="mb-3">
                                 <label class="mb-2 block text-xs font-semibold">Password</label>
                                 <input type="password" name="password" placeholder="*****"
                                     class="block w-full rounded-md border border-gray-300 focus:border-[242722] focus:outline-none focus:ring-1 focus:ring-[242722] py-1 px-1.5 text-gray-500" />
                             </div>
-
-                           
-                        </div>
-
-                        
-
-                        <div class="mb-4">
+                        <!-- Submit --> 
+                        <div class="mb-8">
                             <button
                                 class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-3/4 mx-auto py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                 <svg class="w-6 h-6 -ml-2" fill="none" stroke="currentColor" stroke-width="2"
@@ -40,7 +35,7 @@ var_dump($_SESSION);?>
                                     <path d="M20 8v6M23 11h-6" />
                                 </svg>
                                 <span class="ml-3">
-                                    Sign Up
+                                    Sign In
                                 </span>
                             </button>
                         </div>

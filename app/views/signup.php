@@ -76,6 +76,8 @@ require_once APPROOT . "/views/include/header.php";
             </div>
         </div>
     </div>
+
+    <script src="<?= URLROOT . '/js/main.js'?>"></script>
 </body>
 
 </html>

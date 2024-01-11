@@ -1,15 +1,30 @@
 <?php
 
 class Tag {
-    private $name;
-    private $value;
-    private $type;
+
+    private $id;
+    private $title;
+	private $db;
 
     public function __construct(){
+        $this->db = Database::getInstance();
+    }
 
-    }
-    public function getName(){
-        return $this->name;
-    }
-    
+	public function getId(){
+		return $this->id;
+	}
+
+	public function setId($id){
+		$this->id = $id;
+	}
+
+	public function getTitle(){
+		return $this->title;
+	}
+
+	public function settitle($title){
+		$this->title = $title;
+	}
+
+
 }

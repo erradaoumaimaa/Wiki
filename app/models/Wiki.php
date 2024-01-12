@@ -1,127 +1,64 @@
 <?php
 class Wiki
 {
-    private $id;
-    private $title;
-    private $content;
-    private $image;
-    private $dateCreated;
-    private $dateModified;
-    private $archived;
-    private $categoryId;
-    private $userId;
-    private $db;
+    private $conn;
 
-    public function __construct()
-    {
-        $this->db= Database::getInstance();
+    public function __construct(){
+        $this->conn = Database::getInstance();
     }
-    public function getId(){
-		return $this->id;
-	}
 
-	public function setId($id){
-		$this->id = $id;
-	}
-
-	public function getTitle(){
-		return $this->title;
-	}
-
-	public function setTitle($title){
-		$this->title = $title;
-	}
-
-	public function getContent(){
-		return $this->content;
-	}
-
-	public function setContent($content){
-		$this->content = $content;
-	}
-
-	public function getPicture(){
-		return $this->image;
-	}
-
-	public function setPicture($image){
-		$this->image = $image;
-	}
-
-	public function getDateCreated(){
-		return $this->dateCreated;
-	}
-
-	public function setDateCreated($dateCreated){
-		$this->dateCreated = $dateCreated;
-	}
-
-	public function getDateModified(){
-		return $this->dateModified;
-	}
-
-	public function setDateModified($dateModified){
-		$this->dateModified = $dateModified;
-	}
-
-	public function getArchived(){
-		return $this->archived;
-	}
-
-	public function setArchived($archived){
-		$this->archived = $archived;
-	}
-
-	public function getCategoryId(){
-		return $this->categoryId;
-	}
-
-	public function setCategoryId($categoryId){
-		$this->categoryId = $categoryId;
-	}
-
-	public function getUserId(){
-		return $this->userId;
-	}
-
-	public function setUserId($userId){
-		$this->userId = $userId;
-	}
     public function getAll()
     {
-        $this->db->query("SELECT wikis.*, categories.title AS category, users.fname AS fname, users.lname AS lname
+        $this->conn->query("SELECT wikis.*, categories.title AS category, users.fname AS fname, users.lname AS lname
+        FROM wikis
+        LEFT JOIN categories ON categories.id = wikis.category_id
+        INNER JOIN users ON users.id = wikis.user_id
+        WHERE wikis.removed = 0
+        ORDER BY wikis.created_at DESC");
+        return $this->conn->resultSet();
+    }
+
+
+    public function getWikisByUserId()
+    {
+        $this->conn->query("SELECT wikis.*, categories.title AS category, users.fname AS fname, users.lname AS lname
             FROM wikis
             INNER JOIN categories ON categories.id = wikis.category_id
             INNER JOIN users ON users.id = wikis.user_id
-            WHERE wikis.deleted = 0 AND wikis.archived = 0
+            WHERE wikis.removed = 0 AND wikis.user_id = :user_id
             ORDER BY wikis.created_at DESC");
-        return $this->db->resultSet();
+        $this->conn->bind(':user_id', $_SESSION['user_id']);
+        return $this->conn->resultSet();
     }
+
     public function Add($wiki)
     {
         try {
-            $this->db->query("INSERT INTO Wikis(title, content, user_id, category_id) VALUES( :title, :content, :user_id ,:category_id)");
-            $this->db->bind(':title', $wiki['title']);
-            $this->db->bind(':content', $wiki['content']);
-            $this->db->bind(':user_id', $_SESSION['user_id']);
-            $this->db->bind(':category_id', $wiki['category_id']);
+            $this->conn->query("INSERT INTO Wikis(title, content, user_id, category_id) VALUES( :title, :content, :user_id ,:category_id)");
+            $this->conn->bind(':title', $wiki['title']);
+            $this->conn->bind(':content', $wiki['content']);
+            $this->conn->bind(':user_id', $_SESSION['user_id']);
+            $this->conn->bind(':category_id', $wiki['category_id']);
 
-            $this->db->execute();
-            return $this->db->lastInsertId();
+            $this->conn->execute();
+            return $this->conn->lastInsertId();
         } catch (PDOException $e) {
             die($e->getMessage());
         }
     }
 
-    public function Update($wiki)
+    public function Update($title, $content, $category_id, $id)
     {
         try {
-            $this->db->query("UPDATE wikis SET title = :title, content = :content, category_id = :category_id");
-            $this->db->bind(':title', $wiki->title);
-            $this->db->bind(':content', $wiki->content);
-            $this->db->bind(':category_id', $wiki->category_id);
+            $this->conn->query("UPDATE wikis SET title = :title, content = :content, category_id = :category_id, created_at = :created_at WHERE id = :wiki_id");
+            $this->conn->bind(':title', $title);
+            $this->conn->bind(':content', $content);
+            $this->conn->bind(':category_id', $category_id);
+            $this->conn->bind(':wiki_id', $id);
+            $current = new DateTime('now');
+            $this->conn->bind(':created_at', $current->format('Y-m-d H:i:s'));
 
-            $this->db->execute();
+            $this->conn->execute();
         } catch (PDOException $e) {
             die($e->getMessage());
         }
@@ -130,9 +67,19 @@ class Wiki
     public function Delete($Wiki_ID)
     {
         try {
-            $this->db->query("DELETE FROM wikis WHERE id = :Wiki_ID");
-            $this->db->bind(':Wiki_ID', $Wiki_ID);
-            $this->db->execute();
+            $this->conn->query("UPDATE wikis SET removed = 1 WHERE id = :wiki_id");
+            $this->conn->bind(':wiki_id', $Wiki_ID);
+            $this->conn->execute();
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+    public function Archive($Wiki_ID)
+    {
+        try {
+            $this->conn->query("UPDATE wikis SET removed = 2 WHERE id = :wiki_id");
+            $this->conn->bind(':wiki_id', $Wiki_ID);
+            $this->conn->execute();
         } catch (PDOException $e) {
             die($e->getMessage());
         }
@@ -140,10 +87,31 @@ class Wiki
 
     public function attachTag($wiki_id, $tag_id)
     {
-        $this->db->query("INSERT INTO tag_wiki(tag_id, wiki_id) VALUES(:tag_id,:wiki_id)");
-        $this->db->bind(':wiki_id', $wiki_id);
-        $this->db->bind(':tag_id', $tag_id);
-        $this->db->execute();
-                  
+        $this->conn->query("INSERT INTO tag_wiki(tag_id, wiki_id) VALUES(:tag_id,:wiki_id)");
+        $this->conn->bind(':wiki_id', $wiki_id);
+        $this->conn->bind(':tag_id', $tag_id);
+        $this->conn->execute();
+    }
+    public function getWiki($id)
+    {
+        $this->conn->query("SELECT DISTINCT * FROM wikis INNER JOIN users ON wikis.user_id = users.id where wikis.id = :id");
+        $this->conn->bind(':id', $id);
+        $this->conn->execute();
+        return $this->conn->single();
+    }
+    public function updateTags($wikiId, $tags)
+    {
+        $this->conn->query("DELETE FROM tag_wiki WHERE wiki_id = :id");
+        $this->conn->bind(':id', $wikiId);
+
+        $this->conn->execute();
+
+        foreach ($tags as $tagId) {
+            $this->conn->query("INSERT INTO tag_wiki (wiki_id, tag_id) VALUES (:wiki_id,:tag_id)");
+            $this->conn->bind(':wiki_id', $wikiId);
+            $this->conn->bind(':tag_id', $tagId);
+
+            $this->conn->execute();
+        }
     }
 }

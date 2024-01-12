@@ -1,83 +1,143 @@
 <?php
+session_start();
 
-class User{
-    
-    private $fname;
-    private $lname;
-    private $image;
-    private $email;
-    private $password;
-    private $role ;
-    private $db;
+class User
+{
+    private $conn;
 
     public function __construct(){
-        $this->db = Database::getInstance();
-    }
-    
-    public function getFirstname(){
-		return $this->fname;
-	}
-
-	public function setFirstname($fname){
-		$this->fname= $fname;
-	}
-
-	public function getLname(){
-		return $this->lname;
-	}
-
-	public function setLname($lname){
-		$this->lname = $lname;
-	}
-
-	public function getImage(){
-		return $this->image;
-	}
-
-	public function setImage($image){
-		$this->image = $image;
-	}
-
-	public function getEmail(){
-		return $this->email;
-	}
-
-	public function setEmail($email){
-		$this->email = $email;
-	}
-
-	public function getPassword(){
-		return $this->password;
-	}
-
-	public function setPassword($password){
-		$this->password = $password;
-	}
-    
-    public function getRole(){
-        return $this->role;
+        $this->conn = Database::getInstance();
     }
 
-    public function setRole($role){
-        $this->role = $role;
-    }
-    public function fetch($email)
+    function getUser($email)
     {
-        $this->db->query('SELECT * FROM users WHERE email = :email');
-        $this->db->bind(':email', $email);
-        return $this->db->single();
+        try {
+            $query = "SELECT * FROM users WHERE email = :email";
+            $this->conn->query($query);
+            $this->conn->bind(':email', $email);
+            return $this->conn->single();
+        } catch (PDOException $e) {
+            echo '<script> alert("' . $e->getMessage() . '")</script>';
+            return null;
+        }
     }
-    public function insert($fname,$lname,$image,$email,$password){
-            $sql= "INSERT INTO users (fname,lname,image,email,password,role) VALUES(:fname,:lname,:image,:email,:password, 0)";
-            $this->db->query($sql);
-            $this->db->bind(":fname", $fname);
-            $this->db->bind(":lname", $lname);
-            $this->db->bind(":image", $image);
-            $this->db->bind(":email", $email);
-            $this->db->bind(":password", $password);
-            $this->db->execute();
+    function getUserById($id)
+    {
+        try {
+            $query = "SELECT * FROM users WHERE id = :id";
+            $this->conn->query($query);
+            $this->conn->bind(':id', $id);
+            return $this->conn->single();
+        } catch (PDOException $e) {
+            echo '<script> alert("' . $e->getMessage() . '")</script>';
+            return null;
+        }
+    }
+    public function insertData($fname, $lname, $email, $password)
+    {
+        try {
+            $query = "INSERT INTO users (fname, lname, email, password) VALUES (:fname, :lname, :email, :password)";
+            $this->conn->query($query);
+
+            $this->conn->bind(':fname', $fname);
+            $this->conn->bind(':lname', $lname);
+            $this->conn->bind(':email', $email);
+            $this->conn->bind(':password', $password);
+
+            $this->conn->execute();
+        } catch (PDOException $e) {
+            echo '<script> alert("' . $e->getMessage() . '")</script>';
+        }
     }
 
+    public function storeSession($email)
+    {
+        $_SESSION['email'] = $email;
+    }
 
+    public function modifyData($id, $newData)
+    {
+        try {
+            $query = "UPDATE users SET fname = :fname, lname = :lname, service = :service, tel = :tel WHERE email = :id";
+            $this->conn->query($query);
 
+            $this->conn->bind(':id', $id);
+            $this->conn->bind(':fname', $newData['fname']);
+            $this->conn->bind(':lname', $newData['lname']);
+            $this->conn->bind(':service', $newData['service']);
+            $this->conn->bind(':tel', $newData['tel']);
+
+            $this->conn->execute();
+            header("Location: dashboard.php");
+        } catch (PDOException $e) {
+            echo '<script> alert("' . $e->getMessage() . '")</script>';
+        }
+    }
+
+    public function login($email, $password)
+    {
+
+        $row = $this->getUser($email);
+
+        if ($row) {
+
+            if (password_verify($password, $row->password)) {
+                return $row;
+            }
+        }
+
+        return false;
+    }
+
+    public function findUserByEmail($email)
+    {
+        $this->conn->query('SELECT * FROM users WHERE email = :email');
+        $this->conn->bind(':email', $email);
+
+        $this->conn->execute();
+
+        if ($this->conn->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function updateUser($id, $fname, $lname, $birthdate, $service, $adress, $tel, $email, $pswd)
+    {
+        $pswd = password_hash($pswd, PASSWORD_DEFAULT);
+
+        $this->conn->query("UPDATE users 
+                                    SET 
+                                        `lname` = :lname, 
+                                        `fname` = :fname, 
+                                        `birthdate` = :birthdate, 
+                                        `service` = :service, 
+                                        `adress` = :adress, 
+                                        `tel` = :tel, 
+                                        `email` = :email, 
+                                        `password` = :pswd 
+                                    WHERE `id` = :id");
+
+        $this->conn->bind(':lname', $lname);
+        $this->conn->bind(':fname', $fname);
+        $this->conn->bind(':birthdate', $birthdate);
+        $this->conn->bind(':service', $service);
+        $this->conn->bind(':adress', $adress);
+        $this->conn->bind(':tel', $tel);
+        $this->conn->bind(':email', $email);
+        $this->conn->bind(':pswd', $pswd);
+        $this->conn->bind(':id', $id);
+
+        $this->conn->execute();
+    }
+
+    public function deleteUser($id)
+    {
+        $query = "DELETE FROM users WHERE id = :userId";
+        $this->conn->query($query);
+        $this->conn->bind(':userId', $id, PDO::PARAM_INT);
+        $this->conn->execute();
+        $_SESSION = array();
+        session_destroy();
+    }
 }

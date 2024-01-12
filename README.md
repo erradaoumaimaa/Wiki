@@ -111,7 +111,7 @@ La conception de notre projet Wiki suit le modèle MVC (Modèle-Vue-Contrôleur)
 |    |—— js
 |        |—— script.js
 ```
-
+         
 
 ## 🛢️ Schéma de la Base de Données
 

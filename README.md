@@ -105,9 +105,6 @@ La conception de notre projet Wiki suit le modèle MVC (Modèle-Vue-Contrôleur)
 |    |—— .htaccess
 |    |—— assets
 |        |—— bg.png
-|        |—— logo.png
-|        |—— logoDark.png
-|        |—— mini-bg.png
 |    |—— css
 |        |—— style.css
 |    |—— index.php

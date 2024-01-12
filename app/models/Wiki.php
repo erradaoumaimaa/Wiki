@@ -144,5 +144,6 @@ class Wiki
         $this->db->bind(':wiki_id', $wiki_id);
         $this->db->bind(':tag_id', $tag_id);
         $this->db->execute();
+                  
     }
 }

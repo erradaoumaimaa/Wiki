@@ -7,6 +7,7 @@ class Wiki
         $this->conn = Database::getInstance();
     }
 
+   
     public function getAll()
     {
         $this->conn->query("SELECT wikis.*, categories.title AS category, users.fname AS fname, users.lname AS lname
@@ -19,9 +20,10 @@ class Wiki
     }
 
 
+
     public function getWikisByUserId()
     {
-        $this->conn->query("SELECT wikis.*, categories.title AS category, users.fname AS fname, users.lname AS lname
+        $this->conn->query("SELECT wikis.*, categories.title AS category, users.fname AS fname, users.lname AS lnamet_
             FROM wikis
             INNER JOIN categories ON categories.id = wikis.category_id
             INNER JOIN users ON users.id = wikis.user_id
@@ -113,5 +115,20 @@ class Wiki
 
             $this->conn->execute();
         }
+    }
+    public function searchData($searchInput){
+        $searchInput = '%' . mysqli_real_escape_string($this->conn, $searchInput) . '%'; 
+
+        $query = "SELECT w.*
+        FROM wikis w
+        LEFT JOIN categories c ON w.category_id = c.category_id
+        LEFT JOIN tags t ON w.tag_id = t.tag_id
+        WHERE w.title LIKE :searchInput OR c.category_title LIKE :searchInput OR t.tag_title LIKE :searchInput
+    ";
+
+        $this->conn->query($query);
+        $this->conn->bind(':searchInput', $searchInput);
+        $this->conn->execute();
+        $this->conn->resultSet();
     }
 }

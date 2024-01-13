@@ -34,7 +34,17 @@ class Category {
 	public function setDescription($description){
 		$this->description = $description;
 	}
-
+    public function getAll()
+    {
+        $this->db->query("SELECT c.*, COUNT(w.id) AS countWikis FROM Categories c LEFT JOIN Wikis w ON c.id = w.category_id GROUP BY c.id ORDER BY c.created_at DESC LIMIT 6");
+        return $this->db->resultSet();
+    }
+    public function getOne($id)
+    {
+        $this->db->query("SELECT * from categories where id = :id");
+        $this->db->bind(':id', $id);
+        return $this->db->single();
+    }
 	public function read(){
 
         $sql = "SELECT * FROM categories";

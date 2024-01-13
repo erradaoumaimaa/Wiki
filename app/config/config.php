@@ -1,16 +1,13 @@
 <?php
 
-// DB Params
+//DB params
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'db_wiki');
-
-// App Root  
+define('DB_NAME', 'db_wiki');   	
+//APP root
 define('APPROOT', dirname(dirname(__FILE__)));
-
-// URL Root
-define('URLROOT', 'http://localhost/wiki');
-
-// Site Name
-define('SITENAME', 'wikis');
+//URL root
+define('URLROOT', 'http://localhost/Wiki');
+//Site name
+define('SITENAME', 'Wiki');

@@ -1,46 +1,42 @@
 <?php
-/**
- * PDO Database Class
- * Connect to database 
- * Create prepared statements 
- * Bind values
- * Return rows and results
- */
 
 class Database 
 {
+  
     private $host = DB_HOST;
-    private $user = DB_USER;
-    private $pass = DB_PASS;
-    private $dbname = DB_NAME;
+    private $username = DB_USER;
+    private $password = DB_PASS;
+    private $database = DB_NAME;
 
-    private $connection;
+    private $conn;
     private $stmt;
-    private $error;
 
     public static $_instance;
+
     public function __construct()
     {
-        $dsn = "mysql:host={$this->host};dbname={$this->dbname}";
-        $options = [
-            PDO::ATTR_PERSISTENT => true,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        ];
-
         try {
-            $this->connection = new PDO($dsn, $this->user, $this->pass, $options);
-        } catch(PDOException $e) {
-            $this->error = $e->getMessage();
-            echo $this->error;
+            $this->conn = new PDO("mysql:host={$this->host};dbname={$this->database}", $this->username, $this->password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Connection failed: " . $e->getMessage());
         }
     }
 
+    public function exec($sql)
+    {
+        $this->stmt = $this->conn->exec($sql);
+    }
+    public function prepare($query)
+    {
+        return $this->conn->prepare($query);
+    }
     public function query($sql)
     {
-        $this->stmt = $this->connection->prepare($sql);
+        $this->stmt = $this->conn->prepare($sql);
     }
 
-    public function bind($param, $value, $type = null)
+    public function bind($params, $value, $type = null)
     {
         if (is_null($type)) {
             switch (true) {
@@ -58,9 +54,8 @@ class Database
             }
         }
 
-        $this->stmt->bindValue($param, $value, $type);
+        $this->stmt->bindValue($params, $value, $type);
     }
-
     public function execute()
     {
         return $this->stmt->execute();
@@ -83,6 +78,16 @@ class Database
         return $this->stmt->rowCount();
     }
 
+    public function query_data($sql, $data = [])
+    {
+        $this->stmt = $this->conn->prepare($sql);
+        $this->stmt->execute($data);
+        return $this->stmt;
+    }
+
+    public function lastInsertId(){
+        return $this->conn->lastInsertId();
+    }
 
     public static function getInstance(){
         if(is_null(self::$_instance)){

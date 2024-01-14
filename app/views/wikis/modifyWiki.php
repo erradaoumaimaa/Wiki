@@ -10,7 +10,7 @@ require_once APPROOT . "/views/include/header.php";
     </a>
         <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-5">Modify Wiki </h1>
 
-        <form action="<?php echo URLROOT; ?>/wikis/modifyData/<?php echo $data['wiki']->id; ?>" method="post" class="flex flex-col">
+        <form action="<?php echo URLROOT; ?>/wikis/modifyData/<?php echo $data['wiki']->id; ?>" onsubmit="return validateWikiForm()" method="post" class="flex flex-col">
             <div class="mb-5">
                 <label class="text-gray-700 font-semibold mb-2" for="title">Title</label>
                 <input class="bg-transparent border rounded-lg shadow border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 py-2 px-4 block w-full appearance-none leading-normal" type="text" id="title" name="title" required value="<?php echo $data['wiki']->title; ?>">

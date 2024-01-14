@@ -10,7 +10,7 @@
                 <div class="hidden md:flex items-center space-x-4">
                     <a href="<?php echo URLROOT; ?>/users/dashboard" class="text-gray-800">Home</a>
                     <a href="<?php echo URLROOT; ?>/users/loginPage "class="text-gray-800">Sign In</a>
-                    <a href=href="<?php echo URLROOT; ?>/users/signupPage" class="text-gray-800">Sign Up</a>
+                    <a href="<?php echo URLROOT; ?>/users/signupPage" class="text-gray-800">Sign Up</a>
                 </div>
                 <!-- Hamburger icon for mobile -->
                 <div class="md:hidden">

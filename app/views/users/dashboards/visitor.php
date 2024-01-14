@@ -23,18 +23,19 @@ require_once APPROOT . "/views/include/header.php";
                     </p>
                 </div>
                 <div class="flex w-11/12 md:w-8/12 xl:w-6/12">
-                    <div class="flex rounded-md w-full">
+                <div class="flex rounded-md w-full">
                         <input type="text" name="searchInput" id="searchInput"
                             class="w-full p-3 rounded-md rounded-r-none border border-2 border-gray-300 placeholder-current dark:bg-gray-500  dark:text-gray-300 dark:border-none "
                             placeholder="keyword" onkeydown="handleEnterKey(event)" />
                         <button
                             class="inline-flex items-center gap-2 bg-violet-700 text-white text-lg font-semibold py-3 px-6 rounded-r-md">
                             <span>Find</span>
-                            <!-- Replace the existing SVG with the provided SVG for the burger menu -->
-                            <svg class="text-gray-800 w-10 h-10" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16" />
+                            <svg class="text-gray-200 h-5 w-5 p-0 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px"
+                                viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;"
+                                xml:space="preserve">
+                                <path
+                                    d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
                             </svg>
                         </button>
                     </div>
@@ -42,7 +43,7 @@ require_once APPROOT . "/views/include/header.php";
             </div>
         </div>
     </div>
-
+    <div id="searchResults" class="mt-4"></div>
     <!-- Main Content -->
     <div class="px-6 py-8">
         <div class="container flex flex-col mx-auto lg:flex-row">
@@ -147,6 +148,55 @@ require_once APPROOT . "/views/include/header.php";
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
+    <script>
+    function handleEnterKey(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            searchAndDisplay();
+        }
+    }
+
+    function displayResults(dataArray) {
+        var container = document.getElementById('searchResults');
+        container.innerHTML = '';
+        dataArray.forEach(function(data) {
+            var url = '<?php echo URLROOT; ?>/wikis/wikiDetails/' + data.id;
+            var resultItem = document.createElement('div');
+            resultItem.classList = 'searchResult';
+
+            resultItem.innerHTML = `
+                <div class="result-header">
+                    <h4>${data.title}</h4>
+                    <a href="${url}"><i class="fa-solid fa-arrow-up-right-from-square" style="color: #42999B;"></i></a>
+                </div>
+                <div class="result-content">
+                    <span>${data.category !== null ? data.category : 'Category Not Assigned'}</span>
+                    <p>${data.content}</p>
+                </div>
+                <div class="result-footer">
+                    <span>By ${data.fname} ${data.lname}</span>
+                </div>
+            `;
+
+            container.appendChild(resultItem);
+        });
+    }
+
+    function searchAndDisplay() {
+        var searchTerm = document.getElementById('searchInput').value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var data = JSON.parse(xhr.responseText);
+                displayResults(data);
+            }
+        };
+        xhr.open('GET', '<?php echo URLROOT; ?>/wikis/searchData/' + searchTerm, true);
+        xhr.send();
+    }
+</script>
+
 
 </body>
 

@@ -13,7 +13,7 @@ require_once APPROOT . "/views/include/header.php";
                     <h4 class="title">LogIn</h4>
                     <p>Welcome back! Please login to your account.</p>
                     <!-- Form -->
-                    <form action="<?= URLROOT . '/users/login' ?>" method="post" class="mt-4">
+                    <form action="<?= URLROOT . '/users/login' ?>" method="post" class="mt-4" onsubmit="return validateForm()">
                         <!-- Email -->
                         <label for="email">
                             <h4>Email</h4>
@@ -54,6 +54,28 @@ require_once APPROOT . "/views/include/header.php";
             </div>
         </div>
     </div>
+
+    <script>
+        function validateForm() {
+            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+            var emailInput = document.getElementById('email');
+            var passwordInput = document.getElementById('password');
+
+            if (!emailPattern.test(emailInput.value)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+
+            if (!passwordPattern.test(passwordInput.value)) {
+                alert('Password must be at least 8 characters long and include at least one letter and one number.');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </body>
 
 </html>

@@ -11,7 +11,7 @@ require_once APPROOT . "/views/include/header.php";
     </a>
         <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-5">Add Wiki</h1>
 
-        <form action="<?php echo URLROOT; ?>/wikis/insertData" method="post" class="flex flex-col">
+        <form action="<?php echo URLROOT; ?>/wikis/insertData" method="post" class="flex flex-col" name="wikiForm">
             <div class="mb-5">
                 <label class="text-gray-700 font-semibold mb-2" for="title">Title</label>
                 <input class="bg-transparent border rounded-lg shadow border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 py-2 px-4 block w-full appearance-none leading-normal glass-input" type="text" id="title" name="title" required placeholder="Enter Title">
@@ -48,4 +48,53 @@ require_once APPROOT . "/views/include/header.php";
         </form>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function validateWikiForm() {
+            // Example: Check if the title is not empty and matches the regex pattern
+            var titleInput = document.getElementById('title');
+            var titlePattern = /^[a-zA-Z0-9\s_]+$/; // Alphanumeric characters, spaces, and underscores
+            if (titleInput.value.trim() === '' || !titlePattern.test(titleInput.value)) {
+                alert('Please enter a valid title.');
+                return false;
+            }
+
+            // Example: Check if the content matches the regex pattern (optional)
+            var contentInput = document.getElementById('content');
+            var contentPattern = /^[a-zA-Z0-9\s]+$/; // Alphanumeric characters and spaces
+            if (contentInput.value.trim() !== '' && !contentPattern.test(contentInput.value)) {
+                alert('Please enter valid content.');
+                return false;
+            }
+
+            // Example: Check if a category is selected
+            var categoryInput = document.getElementById('category');
+            if (categoryInput.value === '') {
+                alert('Please pick a category.');
+                return false;
+            }
+
+            // Example: Check if at least one tag is selected
+            var tagInputs = document.querySelectorAll('input[name="tag[]"]:checked');
+            if (tagInputs.length === 0) {
+                alert('Please select at least one tag.');
+                return false;
+            }
+
+            // Add more validation checks as needed
+
+            return true; // Form will be submitted if all checks pass
+        }
+
+        // Optional: You can attach the validateWikiForm function to the form's onsubmit event
+        var wikiForm = document.querySelector('form[name="wikiForm"]');
+        if (wikiForm) {
+            wikiForm.onsubmit = function () {
+                return validateWikiForm();
+            };
+        }
+    });
+</script>
+
+
 </body>

@@ -35,12 +35,12 @@ class Wikis extends Controller
             $this->wikiModel->attachTag($lastId, $tag);
         }
 
-        redirect('users/profile');
+        redirect('users/dashboard');
     }
     public function deleteOne($id)
     {
         $this->wikiModel->Delete($id);
-        redirect('users/profile');
+        redirect('users/dashboard');
     }
     public function archive($id)
     {
@@ -70,7 +70,7 @@ class Wikis extends Controller
         $this->wikiModel->Update($data['title'], $data['content'], $data['category_id'], $id);
         $this->wikiModel->updateTags($id, $data['tags']);
 
-        redirect('users/profile');
+        redirect('users/dashboard');
 
     }
 

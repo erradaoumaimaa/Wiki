@@ -4,6 +4,9 @@ require_once APPROOT . "/views/include/header.php";
 
 <div class="relative p-40">
     <div class="max-w-3xl mx-auto">
+    <a href="<?= URLROOT . '../users/dashboard' ?>" class="back text-gray-600 hover:text-gray-800 ml-4 mt-4">
+        <i class="fa-solid fa-arrow-left"></i> Back
+    </a>
         <div
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
             <div class="">
@@ -48,7 +51,7 @@ require_once APPROOT . "/views/include/header.php";
                 <?php foreach ($data['tags'] as $tag) : ?>
                 <a href="#"
                     class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-                    <?= '<span>#' . $tag->title . '</span>'; ?>
+                    <?= '<span>#' . $tag->title . '  ,  ' . '</span>'; ?>
                 </a>
             <?php endforeach; ?>
 

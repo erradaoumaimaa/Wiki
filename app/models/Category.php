@@ -45,6 +45,24 @@ class Category {
         $this->db->bind(':id', $id);
         return $this->db->single();
     }
+
+    public function getCats()
+    {
+        $this->db->query("SELECT DISTINCT * from categories");
+        return $this->db->resultSet();
+    }
+    public function getArchived()
+    {
+        $this->db->query(
+            "SELECT c.id, c.title, c.description, 
+            COUNT(w.id) AS Total_Wikis,
+            SUM(CASE WHEN w.removed = 2 THEN 1 ELSE 0 END) AS Archived_Count
+            FROM categories c
+            LEFT JOIN wikis w ON c.id = w.category_id
+            GROUP BY c.id"
+        );
+        return $this->db->resultSet();
+    }
 	public function read(){
 
         $sql = "SELECT * FROM categories";

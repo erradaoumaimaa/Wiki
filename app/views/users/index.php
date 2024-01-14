@@ -2,7 +2,7 @@
 require_once APPROOT . "/views/include/header.php";
 ?>
 <body class="bg-gray-200">
-    <a href="<?= URLROOT . '/users/login' ?>" class="back text-gray-600 hover:text-gray-800 ml-4 mt-4">
+    <a href="<?= URLROOT . '/users/index' ?>" class="back text-gray-600 hover:text-gray-800 ml-4 mt-4">
         <i class="fa-solid fa-arrow-left"></i> Back
     </a>
     <div class="login-page flex flex-wrap min-h-screen w-full content-center justify-center bg-gray-200 py-10">

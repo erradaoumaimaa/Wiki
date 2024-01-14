@@ -79,30 +79,27 @@ class Users extends Controller{
     redirect('users/dashboard');
     }
 
-     public function signup()
-     {
-         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
- 
-             $nameRegex = "/^[a-zA-Z'-]+$/";
-             $emailRegex = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
-             $passwordRegex = "/^[a-zA-Z0-9!@#$%^&*()_+]+$/";
- 
-             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-             $data = [
-                 'fname' => (preg_match($nameRegex, $_POST['fname']) ? trim($_POST['fname']) : false),
-                 'lname' => (preg_match($nameRegex, $_POST['lname']) ? trim($_POST['lname']) : false),
-                 'email' => (preg_match($emailRegex, $_POST['email']) ? trim($_POST['email']) : false),
-                 'password' => (preg_match($passwordRegex, $_POST['password']) ? password_hash(trim($_POST['password']), PASSWORD_BCRYPT) : false),
-             ];
- 
-             $this->userModel->insertData($data['fname'], $data['lname'], $data['email'], $data['password']);
-             $loggedInUser = $this->userModel->getUser($data['email']);
- 
-             $this->createUserSession($loggedInUser);
-             redirect('users/dashboard');
-         }
-     }
-   
+    public function signup()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $nameRegex = "/^[a-zA-Z'-]+$/";
+            $emailRegex = "/^[a-zA-Z0-9.%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/";
+            $passwordRegex = "/^[a-zA-Z0-9!@#$%^&*()_+]+$/";
+
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'fname' => (preg_match($nameRegex, $_POST['fname']) ? trim($_POST['fname']) : false),
+                'lname' => (preg_match($nameRegex, $_POST['lname']) ? trim($_POST['lname']) : false),
+                'email' => (preg_match($emailRegex, $_POST['email']) ? trim($_POST['email']) : false),
+                'password' => (preg_match($passwordRegex, $_POST['password']) ? password_hash(trim($_POST['password']), PASSWORD_BCRYPT) : false),
+            ];
+
+            $this->userModel->insertData($data['fname'], $data['lname'], $data['email'], $data['password']);
+
+            redirect('users/loginPage');
+        }
+    }
      
 
     public function logout() 
@@ -111,22 +108,30 @@ class Users extends Controller{
         session_destroy();
         redirect('users/index');
     }
-     // Dashboard
-     public function dashboard()
-     {
-         $data = [
-            //  'wikis' => $this->wikiModel->getAll(),
-            //  'categories' => $this->categoryModel->getAll(),
-            //  'tags' => $this->tagModel->getAll(),
-             'user' => $this->userModel->getUserById($_SESSION['user_id']),
-         ];
- 
-         if ($data['user']->role === 0) {
-             $this->view('users/dashboards/user', $data);
-         }else{
-             $this->view('users/dashboards/admin', $data);
-         }
-     }
+  // Dashboard
+public function dashboard()
+{
+    $user = $this->userModel->getUserById($_SESSION['user_id']);
+
+    if ($user === null) {
+        echo "User not found!";
+        return;
+    }
+
+    $data = [
+        'wikis' => $this->wikiModel->getAll(),
+        'categories' => $this->categoryModel->getAll(),
+        'tags' => $this->tagModel->getAll(),
+        'user' => $user,
+    ];
+
+    if ($user->role === 0) {
+        $this->view('users/dashboards/user', $data);
+    } else {
+        $this->view('users/dashboards/admin', $data);
+    }
+}
+
 
 
 }

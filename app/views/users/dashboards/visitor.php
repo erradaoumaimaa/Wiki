@@ -1,15 +1,13 @@
 <?php
 require_once APPROOT . "/views/include/header.php";
 ?>
-
-
 <!-- nav -->
 <body class="overflow-x-hidden bg-gray-100">
     <nav class="px-6 py-4 bg-white shadow">
         <div class="container flex flex-col mx-auto md:flex-row md:items-center md:justify-between">
             <div class="flex items-center justify-between">
                 <div>
-                    <a href="#" class="text-xl font-bold text-gray-800 md:text-2xl">WikiCrafting</a>
+                    <a href="<?php echo URLROOT; ?>/users/index" class="text-xl font-bold text-gray-800 md:text-2xl">WikiCrafting</a>
                 </div>
                 <div>
                     <button type="button" class="block text-gray-800 hover:text-gray-600 focus:text-gray-600 focus:outline-none md:hidden">
@@ -21,9 +19,9 @@ require_once APPROOT . "/views/include/header.php";
                 </div>
             </div>
             <div class="flex-col hidden md:flex md:flex-row md:-mx-4">
-                <a href="#" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Home</a>
-                <a href="#" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Sign in</a>
-                <a href="#" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Sign up</a>
+                <a href="<?php echo URLROOT; ?>/users/index"class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Home</a>
+                <a href="<?php echo URLROOT; ?>/users/loginPage " class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Sign in</a>
+                <a href="<?php echo URLROOT; ?>/users/signupPage" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Sign up</a>
             </div>
         </div>
     </nav>
@@ -47,17 +45,17 @@ require_once APPROOT . "/views/include/header.php";
                     <input type="text" name="searchInput" id="searchInput"
                         class="w-full p-3 rounded-md rounded-r-none border border-2 border-gray-300 placeholder-current dark:bg-gray-500  dark:text-gray-300 dark:border-none "
                         placeholder="keyword" onkeydown="handleEnterKey(event)" />
-                    <button
-                        class="inline-flex items-center gap-2 bg-violet-700 text-white text-lg font-semibold py-3 px-6 rounded-r-md">
-                        <span>Find</span>
-                        <svg class="text-gray-200 h-5 w-5 p-0 fill-current" xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px"
-                            viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;"
-                            xml:space="preserve">
-                            <path
-                                d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
-                        </svg>
+                        <button class="inline-flex items-center gap-2 bg-violet-700 text-white text-lg font-semibold py-3 px-6 rounded-r-md">
+                    <span>Find</span>
+                    <svg class="text-gray-200 h-5 w-5 p-0 fill-current" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px"
+                        viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;"
+                        xml:space="preserve">
+                        <path
+                            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+                    </svg>
                 </button>
+
                 </div>
             </div>
         </div>
@@ -94,11 +92,22 @@ require_once APPROOT . "/views/include/header.php";
                                             <a href="<?php echo URLROOT; ?>/wikis/wikiDetails/<?php echo $wiki->id; ?>" class="text-blue-500 hover:underline">Read more</a>
                                             <div>
                                                 <a href="#" class="flex items-center">
-                                                    <img src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=373&amp;q=80"
-                                                        alt="avatar" class="hidden object-cover w-10 h-10 mx-4 rounded-full sm:block">
+                                                    <?php
+                                                    // Extract the first character from fname and lname
+                                                    $initials = strtoupper(substr($wiki->fname, 0, 1) . substr($wiki->lname, 0, 1));
+                                                    ?>
+                                                    <div class="relative flex-shrink-0">
+                                                        <!-- Placeholder avatar with purple background and initials -->
+                                                        <div class="w-10 h-10 mx-4 rounded-full bg-purple-400/50 flex items-center justify-center">
+                                                            <span class="text-purple-800 font-bold"><?= $initials ?></span>
+                                                        </div>
+                                                    </div>
                                                     <h1 class="font-bold text-gray-700 hover:underline">By <?= $wiki->fname . ' ' . $wiki->lname ?></h1>
                                                 </a>
                                             </div>
+
+
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -106,30 +115,31 @@ require_once APPROOT . "/views/include/header.php";
                         </div>
                     </div>
                 </div>
-
+                                
                     <!-- Trendy Tags Section -->
                     <div class="hidden lg:block w-4/12 lg:pl-8">
             <div class="px-8">
                 
-                <aside class="w-full rounded-lg border-2 border-purple-600 p-4 mt-16 max-w-sm mx-auto">
-                <h2 class="font-os text-lg font-bold">Latest Categories</h2>
-                
-                <ul class="flex items-start flex-wrap mt-4">
-                <?php
-                        foreach ($data['categories'] as $category) {
-                            $date = new DateTime($category->created_at);
-                        ?>
-                    <li class="flex mx-1">
-                        <a class="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 dark:bg-purple text-purple-800"
-                            href="category/all">
-                            <?= $category->title ?>
-                        </a>
-                    </li>
-                <?php
-                        }
-                        ?>
-                </ul>
-                </aside>
+            <aside class="w-full rounded-lg border-2 border-purple-600 p-4 mt-16 max-w-sm mx-auto">
+    <h2 class="font-os text-lg font-bold">Latest Categories</h2>
+    
+    <ul class="flex items-start flex-wrap mt-4">
+        <?php
+        foreach ($data['categories'] as $category) {
+            $date = new DateTime($category->created_at);
+        ?>
+        <li class="flex mx-1">
+            <a class="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 dark:bg-purple text-purple-800"
+                href="category/all">
+                <?= $category->title !== null ? $category->title : 'Category Not Assigned' ?>
+            </a>
+        </li>
+        <?php
+        }
+        ?>
+    </ul>
+</aside>
+
             </div>
                     <div class="px-8 mt-10">
                         <aside class="w-full rounded-lg border-2 border-purple-600 p-4 mt-16 max-w-sm mx-auto">
@@ -152,6 +162,10 @@ require_once APPROOT . "/views/include/header.php";
             </div>
         </div>
     </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
+
 </body>
 
 </html>

@@ -26,7 +26,7 @@ class Tags extends Controller
     {
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         $newData = [
-            'title' => $_POST['title'],
+            'title' => $_POST['addTagTitle'],
         ];
         $this->tagModel->Add($newData);
         redirect('tags/index');
@@ -37,7 +37,7 @@ class Tags extends Controller
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         $newData = [
             'id' => $_POST['id'],
-            'title' => $_POST['modTitle'],
+            'title' => $_POST['updateTagTitle'],
         ];
         $this->tagModel->Update($newData);
         redirect('tags/index');

@@ -36,7 +36,7 @@ class Category {
 	}
     public function getAll()
     {
-        $this->db->query("SELECT c.*, COUNT(w.id) AS countWikis FROM Categories c LEFT JOIN Wikis w ON c.id = w.category_id GROUP BY c.id ORDER BY c.created_at DESC LIMIT 6");
+        $this->db->query("SELECT c.*, COUNT(w.id) AS countWikis FROM categories c LEFT JOIN wikis w ON c.id = w.category_id GROUP BY c.id ORDER BY c.created_at DESC LIMIT 6");
         return $this->db->resultSet();
     }
     public function getOne($id)

@@ -22,12 +22,13 @@ require_once APPROOT . "/views/include/header.php";
             </div>
             <div class="flex-col hidden md:flex md:flex-row md:-mx-4">
                 <a href="<?php echo URLROOT; ?>/users/dashboard" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Home</a>
-                <a href="<?php echo URLROOT; ?>/categories/index" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Statistics</a>
+                <a href="<?php echo URLROOT; ?>/categories/index" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Gategories</a>
+                <a href="<?php echo URLROOT; ?>/tags/index" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Tags</a>
+                
                 <a href="<?php echo URLROOT; ?>/users/logout" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">LogOut</a>
             </div>
         </div>
     </nav>
-
             <div class="dark:bg-gray-800">
     <div class="dark:bg-transparent">
         <div class="mx-auto flex flex-col items-center py-12 sm:py-24">
@@ -129,26 +130,10 @@ require_once APPROOT . "/views/include/header.php";
                     </div>
                 </div>
                   
-                    
+                    <!--Statistics-->
                     <div class="hidden lg:block w-4/12 lg:pl-16 mt-8">
-                          <!--Author with total wiki-->
-                    <div class="px-8 ">
-                    <h1 class="mb-4 text-xl font-bold text-gray-700">Authors</h1>
-                    <div class="flex flex-col max-w-sm px-6 py-4 mx-auto bg-white rounded-lg shadow-md">
-                        <ul class="-mx-4">
-                            <li class="flex items-center"><img
-                                    src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=731&amp;q=80"
-                                    alt="avatar" class="object-cover w-10 h-10 mx-4 rounded-full">
-                                <p><a href="#" class="mx-1 font-bold text-gray-700 hover:underline">Alex John</a><span
-                                        class="text-sm font-light text-gray-700">Created 23 Posts</span></p>
-                            </li>
-                          
-                          
-                        </ul>
-                    </div>
-                </div>
                       <!-- Trendy Categorie Section -->  
-                    <div class="px-8 mt-10">
+                    <div class="px-8 ">
                 
                     <aside class="w-full rounded-lg border-2 border-purple-600 p-4 mt-16 max-w-sm mx-auto">
                         <h2 class="font-os text-lg font-bold">Latest Categories</h2>
@@ -161,7 +146,7 @@ require_once APPROOT . "/views/include/header.php";
                             <li class="flex mx-1">
                                 <a class="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 dark:bg-purple text-purple-800"
                                     href="#">
-                                    <?= $wiki->category !== null ? $wiki->category : 'Category Not Assigned' ?>
+                                    <?= $category->title !== null ? $category->title : 'Category Not Assigned' ?>
                                 </a>
                             </li>
                             <?php

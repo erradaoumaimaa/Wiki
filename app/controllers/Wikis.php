@@ -11,6 +11,7 @@ class Wikis extends Controller
         $this->categoryModel = $this->model('Category');
         $this->tagModel = $this->model('Tag');
     }
+
     public function addWiki()
     {
         $data = [

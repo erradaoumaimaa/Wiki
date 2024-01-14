@@ -95,7 +95,7 @@ class Wiki
     }
     public function getWiki($id)
     {
-        $this->conn->query("SELECT DISTINCT * FROM wikis INNER JOIN users ON wikis.user_id = users.id where wikis.id = :id");
+        $this->conn->query("SELECT DISTINCT *, wikis.id FROM wikis INNER JOIN users ON wikis.user_id = users.id where wikis.id = :id");
         $this->conn->bind(':id', $id);
         $this->conn->execute();
         return $this->conn->single();
@@ -115,5 +115,17 @@ class Wiki
             $this->conn->execute();
         }
     }
-  
+
+    public function AuthorWiki(){
+        $this->conn->query(
+            "SELECT CONCAT(u.fname, ' ', u.lname) AS UserName, COUNT(w.id) AS TotalWikis
+            FROM users u
+            LEFT JOIN wikis w ON u.id = w.user_id
+            GROUP BY u.id;"
+            
+        );
+        return $this->conn->resultSet();
+    }
 }
+  
+

@@ -84,40 +84,43 @@ class Category {
 
     }
 
-    public function edit($category){
+    public function Add($newData)
+    {
+        try {
+            $this->db->query("INSERT INTO categories (title, description) VALUES(:Title, :Description)");
+            $this->db->bind(':Title', $newData['title']);
+            $this->db->bind(':Description', $newData['description']);
 
-        $id = $category->getId();
-        $name = $category->getTitle();
-        $description = $category->getDescription();
-
-        $sql = "UPDATE categories SET name = :name, description = :description WHERE id = :id";
-        $this->db->query($sql);
-        $this->db->bind(":name", $name);
-        $this->db->bind(":description", $description);
-        $this->db->bind(":id", $id);
-        $this->db->execute();
-
+            $this->db->execute();
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
     }
 
-    public function delete($id){
+    public function Update($newData)
+    {
+        try {
+            $this->db->query("UPDATE categories SET Title = :Title, Description = :Description, created_at = :created_at WHERE id = :id");
+            $this->db->bind(':id', $newData['id']);
+            $this->db->bind(':Title', $newData['title']);
+            $this->db->bind(':Description', $newData['description']);
+            $current = new DateTime('now');
+            $this->db->bind(':created_at', $current->format('Y-m-d H:i:s'));
 
-        $sql = "DELETE FROM categories WHERE id = :id";
-        $this->db->query($sql);
-        $this->db->bind(":id", $id);
-        $this->db->execute();
-
+            $this->db->execute();
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
     }
 
-    public function fetch($id){
-        $sql = "SELECT * FROM categories WHERE id = :id";
-        $this->db->query($sql);
-        $this->db->bind(":id", $id);
-        return $this->db->single();
-    }
-
-    public function getColumns(){
-        $sql = "DESCRIBE `categories`";
-        $this->db->query($sql);
-        return $this->db->resultSet();
+    public function Delete($Category_ID)
+    {
+        try {
+            $this->db->query("DELETE FROM categories WHERE id = :Category_ID");
+            $this->db->bind(':Category_ID', $Category_ID);
+            $this->db->execute();
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
     }
 }

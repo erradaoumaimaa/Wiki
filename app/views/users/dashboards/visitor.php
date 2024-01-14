@@ -82,7 +82,7 @@ require_once APPROOT . "/views/include/header.php";
                                     <div class="max-w-4xl px-10 py-6 mx-auto bg-white rounded-lg shadow-md">
                                         <div class="flex items-center justify-between">
                                             <span class="font-light text-gray-600"><?= $date->format('M d, Y') ?></span>
-                                            <a href="#" class="px-2 py-1 font-bold text-gray-100 bg-gray-600 rounded hover:bg-gray-500"><?= $wiki->category ?></a>
+                                            <a href="#" class="px-2 py-1 font-bold text-gray-100 bg-gray-600 rounded hover:bg-gray-500"><?= $wiki->category !== null ? $wiki->category : 'Category Not Assigned' ?></a>
                                         </div>
                                         <div class="mt-2">
                                             <a href="#" class="text-2xl font-bold text-gray-700 hover:underline"><?= $wiki->title ?></a>

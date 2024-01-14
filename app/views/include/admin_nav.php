@@ -1,23 +1,38 @@
-<nav class="px-6 py-4 bg-white shadow">
-        <div class="container flex flex-col mx-auto md:flex-row md:items-center md:justify-between">
-            <div class="flex items-center justify-between">
+<div x-data="{ open: false }">
+        <!-- Navbar -->
+        <nav class="bg-white p-4 border-b border-gray-200">
+            <div class="container mx-auto flex items-center justify-between">
+                <!-- Logo/Brand -->
                 <div>
-                    <a href="<?php echo URLROOT; ?>/users/dashboard" class="text-xl font-bold text-gray-800 md:text-2xl">WikiCrafting</a>
+                    <a href="<?php echo URLROOT; ?>/users/dashboard" class="text-gray-800 text-xl font-bold">WikiCrafting</a>
                 </div>
-                <div>
-                    <button type="button" class="block text-gray-800 hover:text-gray-600 focus:text-gray-600 focus:outline-none md:hidden">
-                        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
-                            <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z">
-                            </path>
+
+                <!-- Navigation links for desktop -->
+                <div class="hidden md:flex items-center space-x-4">
+                <a href="<?php echo URLROOT; ?>/users/dashboard" class="block p-2">Home</a>
+            <a href="<?php echo URLROOT; ?>/categories/index" class="block p-2">Categories</a>
+            <a href="<?php echo URLROOT; ?>/tags/index" class="block p-2">Tags</a>
+            <a href="<?php echo URLROOT; ?>/users/logout" class="block p-2">LogOut</a>
+                </div>
+
+                <!-- Hamburger icon for mobile -->
+                <div class="md:hidden">
+                    <button @click="open = !open" class="text-gray-800 focus:outline-none">
+                        <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
             </div>
-            <div class="flex-col hidden md:flex md:flex-row md:-mx-4">
-                <a href="<?php echo URLROOT; ?>/users/dashboard" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Home</a>
-                <a href="<?php echo URLROOT; ?>/categories/index" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Gategories</a>
-                <a href="<?php echo URLROOT; ?>/tags/index" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Tags</a>
-                <a href="<?php echo URLROOT; ?>/users/logout" class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">LogOut</a>
-            </div>
+        </nav>
+
+        <!-- Navigation links for mobile -->
+        <div x-show="open" class="md:hidden bg-white text-gray-800">
+            <a href="<?php echo URLROOT; ?>/users/dashboard" class="block p-2">Home</a>
+            <a href="<?php echo URLROOT; ?>/categories/index" class="block p-2">Categories</a>
+            <a href="<?php echo URLROOT; ?>/tags/index" class="block p-2">Tags</a>
+            <a href="<?php echo URLROOT; ?>/users/logout" class="block p-2">LogOut</a>
         </div>
-    </nav>
+    </div>

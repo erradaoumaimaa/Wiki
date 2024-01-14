@@ -1,8 +1,14 @@
 <?php
 require_once APPROOT . "/views/include/header.php";
 ?>
-<div class="bg-gradient-to-r from-blue-300 to-purple-500 h-screen flex justify-center items-center">
+
+
+<body class="bg-gradient-to-r from-blue-300 to-purple-500 h-screen flex justify-center items-center">
+    
     <div class="py-8 px-6 max-w-md bg-white bg-opacity-30 rounded-lg shadow-lg backdrop-blur-xl backdrop-filter">
+    <a href="<?= URLROOT . '/users/dashboard/' ?>" class="back text-gray-600 hover:text-gray-800 ml-4 mt-4">
+        <i class="fa-solid fa-arrow-left"></i> Back
+    </a>
         <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-5">Add Wiki</h1>
 
         <form action="<?php echo URLROOT; ?>/wikis/insertData" method="post" class="flex flex-col">
@@ -36,9 +42,10 @@ require_once APPROOT . "/views/include/header.php";
                 </div>
             </div>
             <div class="btns space-x-40">
-                <button type="reset" class="bg-gray-500 text-white font-semibold py-2 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out mb-4 ml-20 glass-btn">Cancel</button>
+                <button  type="reset" class="bg-gray-500 text-white font-semibold py-2 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out mb-4 ml-20 glass-btn">Cancel</button>
                 <button type="submit" name="sendF" class="bg-gradient-to-r from-purple-400 to-indigo-500 text-white font-semibold py-2 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out mb-4 glass-btn">Submit</button>
             </div>
         </form>
     </div>
 </div>
+</body>

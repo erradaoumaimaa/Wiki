@@ -12,7 +12,7 @@
                 <a href="<?php echo URLROOT; ?>/users/dashboard" class="block p-2">Home</a>
             <a href="<?php echo URLROOT; ?>/categories/index" class="block p-2">Categories</a>
             <a href="<?php echo URLROOT; ?>/tags/index" class="block p-2">Tags</a>
-            <a href="<?php echo URLROOT; ?>/users/logout" class="block p-2">LogOut</a>
+            <a href="<?php echo URLROOT; ?>/users/logout" class="block p-2">Log Out</a>
                 </div>
 
                 <!-- Hamburger icon for mobile -->
@@ -33,6 +33,6 @@
             <a href="<?php echo URLROOT; ?>/users/dashboard" class="block p-2">Home</a>
             <a href="<?php echo URLROOT; ?>/categories/index" class="block p-2">Categories</a>
             <a href="<?php echo URLROOT; ?>/tags/index" class="block p-2">Tags</a>
-            <a href="<?php echo URLROOT; ?>/users/logout" class="block p-2">LogOut</a>
+            <a href="<?php echo URLROOT; ?>/users/logout" class="block p-2">Log Out</a>
         </div>
     </div>

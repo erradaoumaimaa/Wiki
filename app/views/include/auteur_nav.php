@@ -11,7 +11,7 @@
                 <div class="hidden md:flex items-center space-x-4">
                     <a href="<?php echo URLROOT; ?>/users/dashboard" class="text-gray-800">Home</a>
                     <a href="<?php echo URLROOT; ?>/wikis/addWiki" class="text-gray-800">Add Wiki</a>
-                    <a href="<?php echo URLROOT; ?>/users/logout" class="text-gray-800">LogOut</a>
+                    <a href="<?php echo URLROOT; ?>/users/logout" class="text-gray-800">Log Out</a>
                 </div>
 
                 <!-- Hamburger icon for mobile -->
@@ -31,6 +31,6 @@
         <div x-show="open" class="md:hidden bg-white text-gray-800">
             <a href="<?php echo URLROOT; ?>/users/dashboard" class="block p-2">Home</a>
             <a href="<?php echo URLROOT; ?>/wikis/addWiki" class="block p-2">Add Wiki</a>
-            <a href="<?php echo URLROOT; ?>/users/logout" class="block p-2">LogOut</a>
+            <a href="<?php echo URLROOT; ?>/users/logout" class="block p-2">Log Out</a>
         </div>
     </div>

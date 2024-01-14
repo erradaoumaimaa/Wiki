@@ -8,7 +8,7 @@
                 </div>
                 <!-- Navigation links for desktop -->
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="<?php echo URLROOT; ?>/users/dashboard" class="text-gray-800">Home</a>
+                    <a href="<?php echo URLROOT; ?>/users/index" class="text-gray-800">Home</a>
                     <a href="<?php echo URLROOT; ?>/users/loginPage "class="text-gray-800">Sign In</a>
                     <a href="<?php echo URLROOT; ?>/users/signupPage" class="text-gray-800">Sign Up</a>
                 </div>
@@ -26,7 +26,7 @@
         </nav>
         <!-- Navigation links for mobile -->
       <div x-show="open" class="md:hidden bg-white text-gray-800">
-          <a href="<?php echo URLROOT; ?>/users/dashboard" class="block p-2 border-t border-gray-200">Home</a>
+          <a href="<?php echo URLROOT; ?>/users/index" class="block p-2 border-t border-gray-200">Home</a>
           <a href="<?php echo URLROOT; ?>/users/loginPage" class="block p-2 border-t border-gray-200">Sign In</a>
           <a href="<?php echo URLROOT; ?>/users/signupPage" class="block p-2 border-t border-gray-200">Sign Up</a>
       </div>

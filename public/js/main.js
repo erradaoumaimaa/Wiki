@@ -74,42 +74,30 @@ function closeAddTagPopup() {
 
     document.addEventListener("DOMContentLoaded", function () {
         function validateWikiForm() {
-            // Example: Check if the title is not empty and matches the regex pattern
             var titleInput = document.getElementById('title');
-            var titlePattern = /^[a-zA-Z0-9\s_]+$/; // Alphanumeric characters, spaces, and underscores
+            var titlePattern = /^[a-zA-Z0-9\s_]+$/;
             if (titleInput.value.trim() === '' || !titlePattern.test(titleInput.value)) {
                 alert('Please enter a valid title.');
                 return false;
             }
-
-            // Example: Check if the content matches the regex pattern (optional)
             var contentInput = document.getElementById('content');
-            var contentPattern = /^[a-zA-Z0-9\s]+$/; // Alphanumeric characters and spaces
+            var contentPattern = /^[a-zA-Z0-9\s]+$/;
             if (contentInput.value.trim() !== '' && !contentPattern.test(contentInput.value)) {
                 alert('Please enter valid content.');
                 return false;
             }
-
-            // Example: Check if a category is selected
             var categoryInput = document.getElementById('category');
             if (categoryInput.value === '') {
                 alert('Please pick a category.');
                 return false;
             }
-
-            // Example: Check if at least one tag is selected
             var tagInputs = document.querySelectorAll('input[name="tag[]"]:checked');
             if (tagInputs.length === 0) {
                 alert('Please select at least one tag.');
                 return false;
             }
-
-            // Add more validation checks as needed
-
-            return true; // Form will be submitted if all checks pass
+            return true; 
         }
-
-        // Optional: You can attach the validateWikiForm function to the form's onsubmit event
         var wikiForm = document.querySelector('form[name="wikiForm"]');
         if (wikiForm) {
             wikiForm.onsubmit = function () {

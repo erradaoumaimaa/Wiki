@@ -85,7 +85,6 @@ require_once APPROOT . "/views/include/header.php";
                                         <div>
                                             <a href="#" class="flex items-center">
                                                 <?php
-                                                // Extract the first character from fname and lname
                                                 $initials = strtoupper(substr($wiki->fname, 0, 1) . substr($wiki->lname, 0, 1));
                                                 ?>
                                                 <div class="relative flex-shrink-0">

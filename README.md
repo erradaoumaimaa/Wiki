@@ -57,7 +57,7 @@ Le projet Wiki vise à créer une plateforme collaborative de gestion de contenu
 
 - 🌐 **Jira:** [Project Planning](https://oumaimaerrada.atlassian.net/jira/software/projects/WP/boards/8/backlog)
 - 📂 **GitHub Repository:** [Project Repository](https://www.canva.com/design/DAF2e8Jrg-8/Wh2in64tpoPV6sHFTUDAmQ/edit)
-- 🔗 **Presentation:** [Project Presentation](https://www.canva.com/design/DAF5qTtw3jY/-MPu1-krEULK5HRAIDP44Q/edit)
+- 🔗 **Presentation:** [Project Presentation](https://www.canva.com/design/DAF2e8Jrg-8/Wh2in64tpoPV6sHFTUD)
 
 ## 📁 Structure du Projet
 
